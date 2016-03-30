@@ -18,11 +18,11 @@ public class WeatherInfoFileProvider extends WeatherInfoExternalProvider {
     @Override
     protected List<String> readFile() {
         try {
-            //ClassLoader.getSystemResource
+
             Path p = Paths.get(ClassLoader.getSystemResource(location).toURI());
             return Files.readAllLines(p);
 
-            //return Files.readAllLines(Paths.get(location));
+
         } catch (IOException | URISyntaxException e) {
             // TODO Should log to some log mechanism
             e.printStackTrace();

@@ -31,6 +31,10 @@ public abstract class WeatherInfoExternalProvider {
 
     protected abstract List<String> readFile();
 
+    public String getLocation(){
+        return location;
+    }
+
     private Collection<WeatherInfo> parseWeatherInfo(List<String> lines) {
         ArrayList<WeatherInfo> weatherInfos = new ArrayList<>();
         for (int i = 0; i < lines.size(); ++i) {

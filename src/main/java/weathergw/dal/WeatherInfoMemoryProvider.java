@@ -4,16 +4,14 @@ import weathergw.dal.external.ExternalProviderManager;
 import weathergw.domain.WeatherInfo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tonym on 29/03/2016.
  */
 public class WeatherInfoMemoryProvider {
 
-    private Map<LocalDate, WeatherInfo> weatherInfos;
+    private Collection<WeatherInfo> weatherInfos;
 
 
 
@@ -22,11 +20,11 @@ public class WeatherInfoMemoryProvider {
     }
 
 
-    public void setWeatherInfos(Map<LocalDate, WeatherInfo> weatherInfos) {
+    public void setWeatherInfos(Collection<WeatherInfo> weatherInfos) {
         this.weatherInfos = weatherInfos;
     }
 
-    public Map<LocalDate, WeatherInfo> getWeatherInfos() {
+    public Collection<WeatherInfo> getWeatherInfos() {
         return weatherInfos;
     }
 
@@ -36,8 +34,10 @@ public class WeatherInfoMemoryProvider {
 
         LocalDate localDate = start;
 
-        while (localDate.isAfter(end) || localDate.isEqual(end)) {
-            if (!weatherInfos.containsKey(localDate))
+        Iterator<WeatherInfo> iterator = weatherInfos.iterator();
+
+        while (iterator.hasNext() && (localDate.isAfter(end) || !localDate.isBefore(end))) {
+            if (!weatherInfos.contains(localDate))
                 return false;
             localDate = localDate.plusDays(1);
         }

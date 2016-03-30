@@ -34,5 +34,6 @@ public class WeatherInfoServiceSupplier extends WeatherInfoCsvSupplier implement
             e.printStackTrace();
             return null;
         }
+       // return null;
     }
 }

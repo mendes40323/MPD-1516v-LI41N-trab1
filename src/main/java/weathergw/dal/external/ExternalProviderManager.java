@@ -4,6 +4,8 @@ import weathergw.domain.WeatherInfo;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -13,16 +15,33 @@ public class ExternalProviderManager {
 
     private final Collection<WeatherInfoExternalProvider> EXTERNAL_PROVIDERS;
 
+    private Iterator<WeatherInfoExternalProvider> iterator;
+
     public ExternalProviderManager(Collection<WeatherInfoExternalProvider> external_providers) {
         EXTERNAL_PROVIDERS = external_providers;
+        iterator = EXTERNAL_PROVIDERS.iterator();
 
     }
 
-    public Map<LocalDate,WeatherInfo> getWeatherInfos(String localName) {
+    public Collection<WeatherInfo> getWeatherInfos(String location) {
 
+        Collection<WeatherInfo> result = null;
 
+        while (iterator.hasNext()){
 
-        return null;
+            WeatherInfoExternalProvider externalProvider = iterator.next();
+
+            if (externalProvider.getLocation().compareToIgnoreCase(location) == 0) {
+
+                result = externalProvider.get();
+
+                if (!result.isEmpty())
+                    break;
+            }
+        }
+        return result;
+
     }
+
 
 }

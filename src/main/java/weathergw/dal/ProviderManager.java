@@ -4,9 +4,7 @@ import weathergw.dal.external.ExternalProviderManager;
 import weathergw.domain.WeatherInfo;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tonym on 29/03/2016.
@@ -22,40 +20,48 @@ public class ProviderManager {
         EXTERNAL_PROVIDER = external_provider;
     }
 
-    public List<WeatherInfo> getHistory(String localName, LocalDate start, LocalDate end){
+    public List<WeatherInfo> getHistory(String location, LocalDate start, LocalDate end){
 
-        throw new UnsupportedOperationException();
+       return getWeatherInfos(location,start,end);
     }
 
 
-    public Map<LocalDate, WeatherInfo> getWeatherInfos(String localName, LocalDate start, LocalDate end) {
+    public List<WeatherInfo> getWeatherInfos(String location, LocalDate start, LocalDate end) {
 
         Map<LocalDate, WeatherInfo> result = null;
 
         if (!MEMORY_PROVIDER.isInMemory(start,end)){
 
-            MEMORY_PROVIDER.setWeatherInfos(EXTERNAL_PROVIDER.getWeatherInfos(localName));
+            MEMORY_PROVIDER.setWeatherInfos(EXTERNAL_PROVIDER.getWeatherInfos(location));
 
         }
 
 
-        result = getSelectedDates(MEMORY_PROVIDER.getWeatherInfos(),start,end);
+        return getSelectedDates(MEMORY_PROVIDER.getWeatherInfos(),start,end);
 
-        return result;
     }
 
-    private Map<LocalDate,WeatherInfo> getSelectedDates(Map<LocalDate, WeatherInfo> weatherInfos, LocalDate start, LocalDate end) {
+    private List<WeatherInfo> getSelectedDates(Collection<WeatherInfo> weatherInfos, LocalDate start, LocalDate end) {
 
-        Map<LocalDate, WeatherInfo> result = new HashMap<>();
+        List<WeatherInfo> result = new ArrayList<>();
 
         LocalDate curr = start;
 
-        while (curr.isBefore(end) || !curr.isBefore(end)){
+        boolean copy = false; // to indicate when to start copying
 
-            result.put(curr,weatherInfos.get(curr));
+        Iterator<WeatherInfo> iterator = weatherInfos.iterator();
 
-            curr = curr.plusDays(1);
+        while (iterator.hasNext() && (curr.isBefore(end) || !curr.isBefore(end))){
 
+            WeatherInfo weatherInfo = iterator.next();
+
+            curr = weatherInfo.getDate();
+
+            if (curr.equals(start))
+                copy = true;
+
+            if (copy)
+                result.add(weatherInfo);
         }
 
         return result;
