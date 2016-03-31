@@ -36,7 +36,11 @@ public class WeatherInfoMemoryProvider {
 
         Iterator<WeatherInfo> iterator = weatherInfos.iterator();
 
-        while (iterator.hasNext() && (localDate.isAfter(end) || !localDate.isBefore(end))) {
+        if(localDate.isAfter(iterator.next().getDate()) || end.isBefore(iterator.next().getDate()))
+            return false;
+
+        //while (iterator.hasNext() && (localDate.isAfter(end) || !localDate.isBefore(end))) {
+        while (iterator.hasNext() && (localDate.isBefore(end) && !localDate.equals(end))) {
             if (!weatherInfos.contains(localDate))
                 return false;
             localDate = localDate.plusDays(1);

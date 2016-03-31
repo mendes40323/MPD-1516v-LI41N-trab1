@@ -11,15 +11,17 @@ import java.util.List;
  * Created by tonym on 29/03/2016.
  */
 public class WeatherInfoFileProvider extends WeatherInfoExternalProvider {
-    public WeatherInfoFileProvider(String location) {
+    private String fileExtension;
+    public WeatherInfoFileProvider(String location, String fileExtension) {
         super(location);
+        this.fileExtension = fileExtension;
     }
 
     @Override
     protected List<String> readFile() {
         try {
 
-            Path p = Paths.get(ClassLoader.getSystemResource(location).toURI());
+            Path p = Paths.get(ClassLoader.getSystemResource(location+fileExtension).toURI());
             return Files.readAllLines(p);
 
 

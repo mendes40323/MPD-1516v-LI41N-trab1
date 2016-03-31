@@ -20,12 +20,11 @@ public class ExternalProviderManager {
     public ExternalProviderManager(Collection<WeatherInfoExternalProvider> external_providers) {
         EXTERNAL_PROVIDERS = external_providers;
         iterator = EXTERNAL_PROVIDERS.iterator();
-
     }
 
     public Collection<WeatherInfo> getWeatherInfos(String location) {
-
         Collection<WeatherInfo> result = null;
+
 
         while (iterator.hasNext()){
 

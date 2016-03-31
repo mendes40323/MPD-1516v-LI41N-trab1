@@ -23,8 +23,8 @@ public class WeatherInfoServiceSupplier extends WeatherInfoCsvSupplier implement
         super(url);
     }
 
-    protected List<String> readFile() {
-        try {
+    protected List<String> readFile() { return null;
+        /*try {
             URL url = new URL(location);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -33,7 +33,7 @@ public class WeatherInfoServiceSupplier extends WeatherInfoCsvSupplier implement
             // TODO Should log to some log mechanism
             e.printStackTrace();
             return null;
-        }
+        }*/
        // return null;
     }
 }

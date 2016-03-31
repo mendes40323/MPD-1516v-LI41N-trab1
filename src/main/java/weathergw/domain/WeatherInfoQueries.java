@@ -35,7 +35,7 @@ public class WeatherInfoQueries {
         return maxWi.getMaxTempC();
     }
 
-    public List<WeatherInfo> getWithMaxTemperaturesBetween(int min, int max) {
+    /*public List<WeatherInfo> getWithMaxTemperaturesBetween(int min, int max) {
 //        return filter(new Predicate<WeatherInfo>() {
 //            @Override
 //            public boolean evaluate(WeatherInfo wi) {
@@ -43,16 +43,16 @@ public class WeatherInfoQueries {
 //            }
 //        });
         return  filter(wi -> wi.getMinTempC() >= min && wi.getMinTempC() < max);
-    }
+    }*/
 
-    public List<WeatherInfo> getWithMinTemperaturesBetween(int min, int max) {
+   /* public List<WeatherInfo> getWithMinTemperaturesBetween(int min, int max) {
         return filter(new Predicate<WeatherInfo>() {
             @Override
             public boolean evaluate(WeatherInfo wi) {
                 return wi.getMinTempC() >= min && wi.getMinTempC() < max;
             }
         });
-    }
+    }*/
 
     public List<WeatherInfo> filter(Predicate<WeatherInfo> pred) {
         Collection<WeatherInfo> weatherInfos = supplier.get();
