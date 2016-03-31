@@ -1,39 +1,70 @@
 package weathergw;
 
+import weathergw.dal.ProviderManager;
+import weathergw.dal.WeatherInfoMemoryProvider;
+import weathergw.dal.external.ExternalProviderManager;
+import weathergw.dal.external.WeatherInfoExternalProvider;
+import weathergw.dal.external.WeatherInfoFileProvider;
+import weathergw.dal.external.WeatherInfoServiceProvider;
+import weathergw.domain.Location;
+import weathergw.domain.WeatherInfo;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.CollationElementIterator;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
 
 /**
  * Created by lfalcao on 07/03/16.
  */
 public class HelloWorld {
+
+    private static String name = "Lisboa";// fileName = "weather-data.cvs";
+    private static Location location;
+    private static ProviderManager providerManager;
+    private static ExternalProviderManager externalProviderManager;
+    private static WeatherInfoFileProvider fileProvider;
+    private static WeatherInfoServiceProvider serviceProvider;
+    private static WeatherInfoMemoryProvider memoryProvider;
+    private static LocalDate start, end;
+
     public static void main(String[] args) {
-        URL url = ClassLoader.getSystemResource("foo/text.txt");
-        Path path = null;
-        try {
+        fileProvider = new WeatherInfoFileProvider(name, ".csv");
+        serviceProvider = new WeatherInfoServiceProvider(name);
+        memoryProvider = new WeatherInfoMemoryProvider();
 
-            LocalDate ld1 = LocalDate.of(2017,05,01);
-            LocalDate ld2 = LocalDate.of(2016,06,15);
+       Collection<WeatherInfoExternalProvider> weatherInfoExternalProviders = new ArrayList<>();
+        weatherInfoExternalProviders.add(fileProvider);
+        weatherInfoExternalProviders.add(serviceProvider);
 
-            long total1 = (ld1.isLeapYear()?ld1.getYear()*366:365);
+        externalProviderManager = new ExternalProviderManager(weatherInfoExternalProviders);
 
-            long total2 = (ld2.isLeapYear()?ld2.getYear()*366:365) + ld2.getMonthValue() + ld2.getDayOfMonth();
+        providerManager = new ProviderManager(externalProviderManager);
+
+        location = new Location(name, providerManager);
+
+        start = LocalDate.now().minusDays(31+24);
+        end = start.plusDays(7);
+
+        Collection<WeatherInfo> weatherInfos = location.getHistory(start,end);
+
+        for (WeatherInfo w :weatherInfos)
+            System.out.println(w.getDate());
+
+        start = LocalDate.now().minusDays(24);
+        end = start.plusDays(3);
+
+        weatherInfos = location.getHistory(start,end);
+
+        for (WeatherInfo w :weatherInfos)
+            System.out.println(w.getDate());
 
 
-            System.out.println(ld1.plusDays(6).getDayOfYear());
-
-            path = Paths.get(url.toURI());
-
-            System.out.println("Em primeiro lugar, boa noite. Em 2º o Sporting.");
-
-            System.out.println(Files.readAllLines(path));
-        } catch (URISyntaxException | IOException e) {
-            e.printStackTrace();
-        }
     }
 }

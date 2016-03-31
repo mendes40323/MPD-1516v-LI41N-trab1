@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class QueriesTests {
 
-    @Test
+   /* @Test
     public void shouldObtainMaxTemp() {
         Supplier<Collection<WeatherInfo>> sup = getSupplier(25, 10, 15);
 
@@ -62,7 +62,7 @@ public class QueriesTests {
                 return al;
             }
         };
-    }
+    }*/
 
 
 }
