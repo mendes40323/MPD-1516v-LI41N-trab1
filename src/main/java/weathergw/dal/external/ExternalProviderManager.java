@@ -34,7 +34,7 @@ public class ExternalProviderManager {
 
                 result = externalProvider.get();
 
-                if (!result.isEmpty())
+                if (result != null && !result.isEmpty() )
                     break;
             }
         }

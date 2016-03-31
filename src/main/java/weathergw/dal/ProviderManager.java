@@ -46,6 +46,9 @@ public class ProviderManager {
 
         boolean copy = false; // to indicate when to start copying
 
+        if (weatherInfos == null )
+            return result;
+
         Iterator<WeatherInfo> iterator = weatherInfos.iterator();
 
 

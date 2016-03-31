@@ -25,7 +25,7 @@ import java.util.*;
  */
 public class HelloWorld {
 
-    private static String name = "Lisboa";// fileName = "weather-data.cvs";
+    private static String name = "lisbon";// fileName = "weather-data.cvs";
     private static Location location;
     private static ProviderManager providerManager;
     private static ExternalProviderManager externalProviderManager;
@@ -35,8 +35,8 @@ public class HelloWorld {
     private static LocalDate start, end;
 
     public static void main(String[] args) {
-        fileProvider = new WeatherInfoFileProvider(name, ".csv");
-        serviceProvider = new WeatherInfoServiceProvider(name);
+        fileProvider = new WeatherInfoFileProvider(name, "csv");
+        serviceProvider = new WeatherInfoServiceProvider(name,"csv");
         memoryProvider = new WeatherInfoMemoryProvider();
 
        Collection<WeatherInfoExternalProvider> weatherInfoExternalProviders = new ArrayList<>();

@@ -9,6 +9,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.StreamHandler;
 
 /**
  * Created by tonym on 29/03/2016.
@@ -19,14 +20,22 @@ public abstract class WeatherInfoExternalProvider {
     private static final String COMMENT_PREFIX = "#";
     private static final String WEATHER_INFO_SEPARATOR = ",";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:m a");
-    protected String location;
+    protected String location, fileExtension;
 
-    public WeatherInfoExternalProvider(String location) {
+
+    public WeatherInfoExternalProvider(String location, String fileExtension) {
+
         this.location = location;
+
+        this.fileExtension = fileExtension;
     }
 
     public Collection<WeatherInfo> get() {
-        return parseWeatherInfo(readFile());
+
+        List<String> result = readFile();
+
+
+        return result != null ? parseWeatherInfo(result) : null ;
     }
 
     protected abstract List<String> readFile();
