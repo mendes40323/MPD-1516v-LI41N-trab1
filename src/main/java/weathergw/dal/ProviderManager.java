@@ -28,8 +28,6 @@ public class ProviderManager {
 
     public List<WeatherInfo> getWeatherInfos(String location, LocalDate start, LocalDate end) {
 
-        Map<LocalDate, WeatherInfo> result = null;
-
         if (!MEMORY_PROVIDER.isInMemory(start,end)){
 
             MEMORY_PROVIDER.setWeatherInfos(EXTERNAL_PROVIDER.getWeatherInfos(location));
@@ -51,7 +49,7 @@ public class ProviderManager {
 
         Iterator<WeatherInfo> iterator = weatherInfos.iterator();
 
-        while (iterator.hasNext() && (curr.isBefore(end) || !curr.isBefore(end))){
+        while (iterator.hasNext() && (curr.isBefore(end) && !curr.equals(end))){
 
             WeatherInfo weatherInfo = iterator.next();
 
