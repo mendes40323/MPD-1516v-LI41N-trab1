@@ -49,7 +49,7 @@ public class HelloWorld {
 
         location = new Location(name, providerManager);
 
-        start = LocalDate.now().minusDays(31+24);
+        start = LocalDate.now().minusDays(10);
         end = start.plusDays(7);
 
         Collection<WeatherInfo> weatherInfos = location.getHistory(start,end);
@@ -57,13 +57,41 @@ public class HelloWorld {
         for (WeatherInfo w :weatherInfos)
             System.out.println(w.getDate());
 
-        start = LocalDate.now().minusDays(24);
-        end = start.plusDays(3);
+        start = LocalDate.now().minusDays(50);
+        end = start.plusDays(39);
 
+        System.out.println();
+
+        System.out.println("##############");
         weatherInfos = location.getHistory(start,end);
 
         for (WeatherInfo w :weatherInfos)
             System.out.println(w.getDate());
+
+
+        start = LocalDate.now().minusDays(60);
+        end = start.plusDays(49);
+
+        System.out.println();
+
+        System.out.println("##############");
+        weatherInfos = location.getHistory(start,end);
+
+        for (WeatherInfo w :weatherInfos)
+            System.out.println(w.getDate());
+
+
+        start = LocalDate.now().minusDays(90);
+        end = start.plusDays(60);
+
+        System.out.println();
+
+        System.out.println("##############");
+        weatherInfos = location.getHistory(start,end);
+
+        for (WeatherInfo w :weatherInfos)
+            System.out.println(w.getDate());
+
 
 
     }

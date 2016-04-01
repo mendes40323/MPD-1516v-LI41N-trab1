@@ -1,5 +1,6 @@
 package weathergw.dal.external;
 
+import weathergw.dal.DatesInterval;
 import weathergw.domain.WeatherInfo;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public abstract class WeatherInfoExternalProvider {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:m a");
     protected String location, fileExtension;
 
+    protected LocalDate start, end;
 
     public WeatherInfoExternalProvider(String location, String fileExtension) {
 
@@ -30,13 +32,17 @@ public abstract class WeatherInfoExternalProvider {
         this.fileExtension = fileExtension;
     }
 
-    public Collection<WeatherInfo> get() {
+    public Collection<WeatherInfo> get(DatesInterval datesInterval) {
+
+        start = datesInterval.getSTART();
+        end = datesInterval.getEND();
 
         List<String> result = readFile();
 
 
         return result != null ? parseWeatherInfo(result) : null ;
     }
+
 
     protected abstract List<String> readFile();
 

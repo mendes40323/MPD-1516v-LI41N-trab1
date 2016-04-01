@@ -2,13 +2,10 @@ package weathergw.dal.external;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.Buffer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by tonym on 29/03/2016.
@@ -39,7 +36,7 @@ public class WeatherInfoServiceProvider extends WeatherInfoExternalProvider {
 
             conn = (HttpURLConnection) url.openConnection();
 
-            fileWriter = new FileWriter("./src/main/resources/" + location + "." + fileExtension);
+            fileWriter = new FileWriter("./src/main/resources/" + location + "." + fileExtension, true);
 
             bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -68,7 +65,7 @@ public class WeatherInfoServiceProvider extends WeatherInfoExternalProvider {
         return null;
     }
 
-    private List<String> getServiceReply(BufferedReader bufferedReader, FileWriter bufferedWriter) throws IOException {
+    private List<String> getServiceReply(BufferedReader bufferedReader, FileWriter writer) throws IOException {
         String line;
 
         List<String> result = new ArrayList<>();
@@ -77,7 +74,9 @@ public class WeatherInfoServiceProvider extends WeatherInfoExternalProvider {
 
             result.add(line);
 
-            bufferedWriter.write(line + "\n");
+            writer.append(line + "\n");
+
+//            writer.write(line + "\n");
 
         }
 
@@ -87,11 +86,9 @@ public class WeatherInfoServiceProvider extends WeatherInfoExternalProvider {
 
     private String getUrl() {
 
-        LocalDate start = LocalDate.now(), end = LocalDate.now().plusDays(MAX_DAYS);
+        return  "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=7574602f709e42efb7c151423163103&q=" +
+               location + "&format=" + fileExtension +"&date=" + start + "&enddate=" + end +"&tp=6";
 
-      //  return  "http://api.worldweatheronline.com/free/v2/past-weather.ashx?key=3daff3baaa094ec8a3d171756163103&q=" +
-        //       location + "&format=" + fileExtension +"&date=" + start + "&enddate=" + end +"&tp=6";
-
-        return "http://api.worldweatheronline.com/free/v2/past-weather.ashx?key=25781444d49842dc5be040ff259c5&q=lisbon&format=csv&date=2016-2-1&enddate=2016-2-29&tp=24";
+        //return "http://api.worldweatheronline.com/free/v2/past-weather.ashx?key=25781444d49842dc5be040ff259c5&q=lisbon&format=csv&date=2016-2-1&enddate=2016-2-29&tp=24";
     }
 }

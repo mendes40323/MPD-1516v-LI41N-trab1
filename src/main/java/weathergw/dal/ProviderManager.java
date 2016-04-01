@@ -28,8 +28,11 @@ public class ProviderManager {
 
     public List<WeatherInfo> getWeatherInfos(String location, LocalDate start, LocalDate end) {
 
-        if (!MEMORY_PROVIDER.isInMemory(start,end)){
-            MEMORY_PROVIDER.setWeatherInfos(EXTERNAL_PROVIDER.getWeatherInfos(location));
+        DatesInterval datesInterval = MEMORY_PROVIDER.isInMemory(start,end);
+
+        if (!datesInterval.getSTART().isEqual( datesInterval.getEND())){
+
+            MEMORY_PROVIDER.setWeatherInfos(EXTERNAL_PROVIDER.getWeatherInfos(location, datesInterval));
 
         }
 
